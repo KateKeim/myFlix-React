@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Form, Button, Card, Col } from "react-bootstrap";
+// import { MovieCard } from "../movie-card/movie-card"
 
 export const ProfileView = ({
-  movie,
+  movies,
   onLoggedOut,
   updateUser,
 }) => {
@@ -12,11 +13,8 @@ export const ProfileView = ({
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-
-  const favoriteMoviesCards = movies.filter((movie) =>
-    user.FavoriteMovies.includes(movie.id)
-  );
+  // const [favoriteMovies, setFavoriteMovies] = useState([]);
+  let favMovies = movies.filter(m => user.FavoriteMovies.includes(m._id))
   console.log(movies.id)
 
   const handleSubmit = (event) => {
@@ -27,7 +25,7 @@ export const ProfileView = ({
       Password,
       Email,
       Birthday,
-      favoriteMovies,
+      favMovies,
     };
 
     fetch(`https://movies-api-jbrv.onrender.com/users/${user.Username}`, {
@@ -154,13 +152,14 @@ export const ProfileView = ({
       </Col>
 
       <Col md={12}>
-        <h3 className="mt-3 mb-3 text-light">Your favorite movies:</h3>
-      </Col>  
-      {favoriteMoviesCards.map((movies) => (
-        <Col className="mb-4" key={movies._id} x1={2} lg={3} md={4} xs={6}>
-          <MovieCard movie={movies} user={user} token={token} />
-        </Col>
-      ))}
+        <h3 className="my-3 my-md-5">Your favorite movies:</h3>
+      </Col> 
+      {favMovies.map((movie) => (
+          <Col md={6} lg={4} key={movie._id} className="mb-3">
+            <MovieCard movies={movie} />
+          </Col>
+                ))} 
+
     </>
   );
 };

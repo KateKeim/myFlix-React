@@ -10,8 +10,6 @@ export const MovieView = ({ movies, user, token, updateUser }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
   // const movies = useSelector((state) => state.movies.list)
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // const token = localStorage.getItem("token");
   // const similarMovies = movies.filter((movie) =>
   //   movie.Genre === movie.Genre ? true : false
   // );
@@ -27,9 +25,9 @@ export const MovieView = ({ movies, user, token, updateUser }) => {
   const addFavorite = (event) => {
     event.preventDefault()
     fetch(
-      `https://movies-api-jbrv.onrender.com/users/${user.Username}/movies/${movie.id}`,
+      `https://movies-api-jbrv.onrender.com/users/${user.Username}/movies/${movieId}`,
       {
-        method: "PUT",
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       }
     )
@@ -56,7 +54,7 @@ export const MovieView = ({ movies, user, token, updateUser }) => {
 
   const removeFavorite = () => {
     fetch(
-      `https://movies-api-jbrv.onrender.com/users/${user.Username}/movies/${movie.id}`,
+      `https://movies-api-jbrv.onrender.com/users/${user.Username}/movies/${movieId}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
